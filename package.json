@@ -1,18 +1,29 @@
 {
   "name": "normalize-samples",
   "version": "0.1.0",
-  "description": "",
+  "description": "Normalize a sample drawn from different populations and convert into a Z-score",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/snlamm/normalize-samples"
   },
   "author": "Shmuel Lamm (@snlamm)",
   "license": "MIT",
   "engines": {
     "node": ">=4.8.6"
   },
-  "keywords": [],
+  "keywords": [
+		"normalize",
+		"normalize samples",
+		"statistics",
+		"sample",
+		"standard deviation",
+		"standard error",
+		"confidence intervals",
+		"z-score",
+		"z score",
+		"zscore"
+	],
   "scripts": {
     "lint": "eslint index.js test/*",
     "test": "ava --verbose",
