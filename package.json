@@ -1,5 +1,5 @@
 {
-  "name": "sample-standard-error",
+  "name": "normalize-samples",
   "version": "0.1.0",
   "description": "",
   "main": "index.js",
@@ -10,20 +10,23 @@
   "author": "Shmuel Lamm (@snlamm)",
   "license": "MIT",
   "engines": {
-    "node": ">=6.0.0"
+    "node": ">=4.8.6"
   },
   "keywords": [],
   "scripts": {
-    "lint": "eslint index.js",
+    "lint": "eslint index.js test/*",
     "test": "ava --verbose",
     "test-nyc": "nyc ava --verbose",
     "coverage": "nyc report --reporter=text-lcov | coveralls"
   },
   "private": false,
-  "dependencies": {
-    "ava": "^0.22.0",
+  "devDependencies": {
+    "ava": "^0.23.0",
     "coveralls": "^3.0.0",
-    "eslint": "^4.9.0",
-    "nyc": "^11.2.1"
+    "eslint": "^4.10.0",
+    "nyc": "^11.3.0"
+  },
+  "dependencies": {
+    "ztable": "^1.0.7"
   }
 }
