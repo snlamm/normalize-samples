@@ -43,12 +43,24 @@ module.exports = function(samples) {
 		zScore = 0
 	}
 
+	const marginOfError95 = 1.96 * standardError
+	const marginOfError98 = 2.33 * standardError
+	const createInterval = marginOfError => {
+		return {
+			low: mean - marginOfError,
+			high: mean + marginOfError,
+			marginOfError
+		}
+	}
+
 	return {
-		normalized,
+		samples: normalized,
 		mean,
 		standardError,
 		zScore,
 		proportion: ztable(zScore),
-		n: normalized.length
+		n: normalized.length,
+		confidenceInterval95: createInterval(marginOfError95),
+		confidenceInterval98: createInterval(marginOfError98)
 	}
 }

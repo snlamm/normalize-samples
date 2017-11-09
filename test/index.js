@@ -48,36 +48,100 @@ const populate = (a, b, c) => {
 	}
 }
 
+const round = original => {
+	return Math.round(original * 10000) / 10000
+}
+
+const checkResults = (t, result, desired) => {
+	t.is(result.zScore, desired.zScore)
+	t.is(result.proportion, desired.proportion)
+	t.is(result.n, desired.n)
+	t.is(round(result.mean), desired.mean)
+	t.is(round(result.standardError), desired.standardError)
+
+	t.is(round(result.confidenceInterval95.low), desired.confidenceInterval95Low)
+	t.is(round(result.confidenceInterval95.high), desired.confidenceInterval95High)
+	t.is(round(result.confidenceInterval95.marginOfError), desired.confidenceInterval95Margin)
+
+	t.is(round(result.confidenceInterval98.low), desired.confidenceInterval98Low)
+	t.is(round(result.confidenceInterval98.high), desired.confidenceInterval98High)
+	t.is(round(result.confidenceInterval98.marginOfError), desired.confidenceInterval98Margin)
+}
+
 test('First 3 from each', t => {
 	const samples = populate([ 0, 3 ], [ 0, 3 ], [ 0, 3 ])
 	const result = normalize(samples)
 
-	t.is(result.zScore, 0.182759)
-	t.is(result.proportion, 0.5714)
+	checkResults(t, result, {
+		zScore: 0.182759,
+		proportion: 0.5714,
+		n: 9,
+		mean: 0.0609,
+		standardError: 0.3333,
+		confidenceInterval95Low: -0.5924,
+		confidenceInterval95High: 0.7143,
+		confidenceInterval95Margin: 0.6533,
+		confidenceInterval98Low: -0.7157,
+		confidenceInterval98High: 0.8376,
+		confidenceInterval98Margin: 0.7767
+	})
 })
 
 test('One population as sample should have a 0.5 percentile', t => {
 	const samples = populate([ 0, 100 ], [ 0, 0 ], [ 0, 0 ])
 	const result = normalize(samples)
 
-	t.is(result.zScore, 0)
-	t.is(result.proportion, 0.5)
+	checkResults(t, result, {
+		zScore: 0,
+		proportion: 0.5,
+		n: 100,
+		mean: -0,
+		standardError: 0.1,
+		confidenceInterval95Low: -0.196,
+		confidenceInterval95High: 0.196,
+		confidenceInterval95Margin: 0.196,
+		confidenceInterval98Low: -0.233,
+		confidenceInterval98High: 0.233,
+		confidenceInterval98Margin: 0.233
+	})
 })
 
 test('All populations as sample should have a 0.5 percentile', t => {
 	const samples = populate([ 0, 100 ], [ 0, 100 ], [ 0, 100 ])
 	const result = normalize(samples)
 
-	t.is(result.zScore, 0)
-	t.is(result.proportion, 0.5)
+	checkResults(t, result, {
+		zScore: 0,
+		proportion: 0.5,
+		n: 300,
+		mean: -0,
+		standardError: .0577,
+		confidenceInterval95Low: -0.1132,
+		confidenceInterval95High: 0.1132,
+		confidenceInterval95Margin: 0.1132,
+		confidenceInterval98Low: -0.1345,
+		confidenceInterval98High: 0.1345,
+		confidenceInterval98Margin: 0.1345
+	})
 })
 
 test('Differently sized slices', t => {
 	const samples = populate([ 4, 25 ], [ 15, 35 ], [ 3, 34 ])
 	const result = normalize(samples)
 
-	t.is(result.zScore, -0.379218)
-	t.is(result.proportion, 0.3557)
+	checkResults(t, result, {
+		zScore: -0.379218,
+		proportion: 0.3557,
+		n: 72,
+		mean: -0.0447,
+		standardError: .1179,
+		confidenceInterval95Low: -0.2757,
+		confidenceInterval95High: 0.1863,
+		confidenceInterval95Margin: 0.231,
+		confidenceInterval98Low: -0.3193,
+		confidenceInterval98High: 0.2299,
+		confidenceInterval98Margin: 0.2746
+	})
 })
 
 test('Throw if mean or sd are not numbers', t => {
